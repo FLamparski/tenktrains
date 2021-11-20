@@ -1,5 +1,13 @@
 # 10k Trains
 
+An attempt to derive metrics from train departure boards. Maybe that will actually
+be useful to somebody.
+
+![](docs/arch-uml-swimlanes.png)
+
+This only looks like microservices, everything is in one app. However the different
+modules will talk to each other using the application event bus like it's kafka.
+
 ## Setup
 
 1. Download [`apache-cxf-3.4.5`][cxf] and extract it into `./apache-cxf-3.4.5`
