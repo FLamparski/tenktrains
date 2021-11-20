@@ -42,6 +42,10 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+	testImplementation("io.kotest:kotest-assertions-core:4.0.7")
+	testImplementation("io.kotest:kotest-assertions:4.0.7")
+	testImplementation("io.mockk:mockk:1.12.1")
 }
 
 tasks.withType<KotlinCompile> {
