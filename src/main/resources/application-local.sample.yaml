@@ -1,2 +1,12 @@
 ldb:
   token: YOUR_LDB_TOKEN
+
+polling.stations:
+  - crs: STP
+  - crs: EUS
+  - crs: MAN
+
+elasticsearch:
+  uri: <host:port>
+  username: <username> # if applicable
+  password: <password> # if applicable
