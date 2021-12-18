@@ -1,5 +1,9 @@
 package com.filipwieland.tenktrains.config
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient
+import co.elastic.clients.json.jackson.JacksonJsonpMapper
+import co.elastic.clients.transport.rest_client.RestClientTransport
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,8 +24,11 @@ class ElasticsearchConfig {
         }.build()
 
     @Bean
-    fun elasticsearchRestClient(elasticsearchRestConfig: ClientConfiguration) =
-        RestClients.create(elasticsearchRestConfig).rest()
+    fun elasticsearchApi(elasticsearchRestConfig: ClientConfiguration, objectMapper: ObjectMapper): ElasticsearchClient {
+        val lowLevelClient = RestClients.create(elasticsearchRestConfig).lowLevelRest()
+        val transport = RestClientTransport(lowLevelClient, JacksonJsonpMapper(objectMapper))
+        return ElasticsearchClient(transport)
+    }
 }
 
 @Configuration

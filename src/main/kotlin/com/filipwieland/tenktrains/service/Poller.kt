@@ -26,7 +26,7 @@ class Poller(
 ) : Slf4j {
     @PostConstruct
     fun start() {
-        pollingExecutorService.scheduleAtFixedRate(this::poll, 0, pollingConfig.intervalMs, TimeUnit.MILLISECONDS)
+        pollingExecutorService.scheduleAtFixedRate(this::poll, 5000, pollingConfig.intervalMs, TimeUnit.MILLISECONDS)
     }
 
     @PreDestroy

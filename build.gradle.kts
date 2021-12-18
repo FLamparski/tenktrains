@@ -33,6 +33,8 @@ dependencies {
 	implementation("com.sun.xml.bind:jaxb-impl:2.3.3")
 	implementation("com.sun.xml.ws:jaxws-ri:2.3.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+	implementation("co.elastic.clients:elasticsearch-java:7.16.1")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
 	implementation("org.springframework.boot:spring-boot-starter-quartz")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
