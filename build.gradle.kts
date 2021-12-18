@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
 	id("org.springframework.boot") version "2.6.0"
@@ -60,9 +61,11 @@ tasks.withType<Test> {
 }
 
 tasks.register("generateCodeFromWsdl", Exec::class.java) {
-	val wsdl2java = layout.projectDirectory.file("apache-cxf-3.4.5/bin/wsdl2java.bat").toString()
+	val platformSuffix = if (Os.isFamily(Os.FAMILY_WINDOWS)) ".bat" else ""
+	val wsdl2java = layout.projectDirectory.file("apache-cxf-3.4.5/bin/wsdl2java$platformSuffix").toString()
 	val wsdlUrl = "https://lite.realtime.nationalrail.co.uk/OpenLDBWS/wsdl.aspx?ver=2017-10-01"
 	val packageName = "xjc.nationalrail.ldb"
 	val outDir = "src/generated/java"
+	environment["JAVA_HOME"] = System.getProperty("java.home")
 	commandLine = listOf(wsdl2java, "-client", "-autoNameResolution", "-exsh", "true", "-d", outDir, "-p", packageName, wsdlUrl)
 }
