@@ -8,13 +8,12 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query
 import co.elastic.clients.elasticsearch.core.SearchResponse
 import com.filipwieland.tenktrains.dao.DepartureSnapshotSearch
 import com.filipwieland.tenktrains.extensions.Slf4j
-import com.filipwieland.tenktrains.extensions.logger
 import com.filipwieland.tenktrains.extensions.search
 import com.filipwieland.tenktrains.models.DepartureSnapshotMetricInfo
 import com.filipwieland.tenktrains.models.SumMetric
 import com.filipwieland.tenktrains.models.TimelineDataPoint
 import com.filipwieland.tenktrains.models.WeightedAverageMetric
-import com.filipwieland.tenktrains.repo.queries.FilterQueryConverters
+import com.filipwieland.tenktrains.repo.queries.FilterQueryConverter
 import com.filipwieland.tenktrains.repo.queries.RoundIdQueryConverter
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Repository
@@ -29,7 +28,7 @@ internal class ElasticsearchTimelineRepo(
         val query = Query.of {
             it.bool {
                 it.must(listOf(
-                    FilterQueryConverters.convertToQuery(options),
+                    FilterQueryConverter.convertToQuery(options),
                     RoundIdQueryConverter.convertToQuery(options)
                 ))
             }

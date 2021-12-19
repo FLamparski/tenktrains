@@ -4,9 +4,9 @@ import co.elastic.clients.elasticsearch._types.FieldValue
 import co.elastic.clients.elasticsearch._types.query_dsl.Query
 import com.filipwieland.tenktrains.dao.DepartureSnapshotSearch
 
-object FilterQueryConverters {
-    private val converters = listOf<FilterConverter>(
-        { options: DepartureSnapshotSearch -> // Filter: CRS
+object FilterQueryConverter {
+    fun convertToQuery(options: DepartureSnapshotSearch) = Query.of {
+        val filterQueries = listOf(
             options.filter.crs?.let { filterValues ->
                 Query.of {
                     it.terms {
@@ -17,14 +17,9 @@ object FilterQueryConverters {
                     }
                 }
             }
-        }
-    )
-
-    fun convertToQuery(options: DepartureSnapshotSearch) = Query.of {
+        )
         it.bool {
-            it.must(converters.mapNotNull { it(options) })
+            it.must(filterQueries.filterNotNull())
         }
     }
 }
-
-typealias FilterConverter = (DepartureSnapshotSearch) -> Query?

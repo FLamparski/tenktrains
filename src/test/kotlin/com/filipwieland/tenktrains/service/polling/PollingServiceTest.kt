@@ -1,8 +1,9 @@
-package com.filipwieland.tenktrains.service
+package com.filipwieland.tenktrains.service.polling
 
 import com.filipwieland.tenktrains.config.PolledStationEntryProperties
 import com.filipwieland.tenktrains.config.PollingConfig
 import com.filipwieland.tenktrains.events.PollCompletedEvent
+import com.filipwieland.tenktrains.service.LdbService
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
@@ -24,15 +25,12 @@ import java.time.Clock
 import java.util.concurrent.ScheduledExecutorService
 
 @ExtendWith(MockKExtension::class)
-internal class PollerTest {
+internal class PollingServiceTest {
     @RelaxedMockK
     lateinit var ldbService: LdbService
 
     @MockK
     lateinit var pollingConfig: PollingConfig
-
-    @RelaxedMockK
-    lateinit var pollingExecutorService: ScheduledExecutorService
 
     @RelaxedMockK
     lateinit var applicationEventPublisher: ApplicationEventPublisher
@@ -41,7 +39,7 @@ internal class PollerTest {
     lateinit var clock: Clock
 
     @InjectMockKs
-    lateinit var sut: Poller
+    lateinit var sut: PollingService
 
     @BeforeEach
     fun beforeEach() {
