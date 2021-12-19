@@ -1,5 +1,6 @@
 package com.filipwieland.tenktrains.web
 
+import com.filipwieland.tenktrains.dao.DepartureSnapshotSearch
 import com.filipwieland.tenktrains.repo.DepartureSnapshotRepo
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -10,7 +11,10 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.router
 
 @Configuration
-class ApiRouter(private val departureSnapshotRepo: DepartureSnapshotRepo) {
+class ApiRouter(
+    private val departureSnapshotRepo: DepartureSnapshotRepo,
+    private val timelineHandler: TimelineHandler,
+) {
     @Bean
     fun route() = router {
         GET("/test") {
@@ -23,6 +27,10 @@ class ApiRouter(private val departureSnapshotRepo: DepartureSnapshotRepo) {
                     .map { ServerResponse.ok().body(fromValue(it)) }
                     .orElseGet { ServerResponse.notFound().build() }
             }
+        }
+
+        (accept(MediaType.APPLICATION_JSON) and "/timelines").nest {
+            POST("/{metricId}").invoke(timelineHandler::getTimelineForMetric)
         }
     }
 }
