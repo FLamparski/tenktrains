@@ -4,6 +4,9 @@ import org.apache.tools.ant.taskdefs.condition.Os
 plugins {
 	id("org.springframework.boot") version "2.6.0"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+
+	id("org.unbroken-dome.test-sets") version "4.0.0"
+
 	kotlin("jvm") version "1.6.0"
 	kotlin("plugin.spring") version "1.6.0"
 }
@@ -26,9 +29,16 @@ sourceSets {
 	create("generated")
 }
 
+testSets {
+	create("integrationTest")
+}
+
 dependencies {
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
 	"generatedApi"("com.sun.xml.bind:jaxb-impl:2.3.3")
 	"generatedApi"("com.sun.xml.ws:jaxws-ri:2.3.2")
+
 	implementation(sourceSets["generated"].output)
 	implementation("com.sun.xml.bind:jaxb-impl:2.3.3")
 	implementation("com.sun.xml.ws:jaxws-ri:2.3.2")
@@ -42,13 +52,22 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(module = "mockito-core")
+		exclude(module = "junit")
+	}
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
 	testImplementation("io.kotest:kotest-assertions-core:4.0.7")
 	testImplementation("io.kotest:kotest-assertions:4.0.7")
 	testImplementation("io.mockk:mockk:1.12.1")
+
+	"integrationTestImplementation"("org.testcontainers:testcontainers:1.16.2")
+	"integrationTestImplementation"("org.testcontainers:junit-jupiter:1.16.2")
+	"integrationTestImplementation"("org.testcontainers:elasticsearch:1.16.2")
+	"integrationTestImplementation"("org.awaitility:awaitility:4.1.1")
+	"integrationTestImplementation"("org.awaitility:awaitility-kotlin:4.1.1")
 }
 
 tasks.withType<KotlinCompile> {
