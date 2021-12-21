@@ -14,7 +14,7 @@ import java.time.Clock
 import kotlin.streams.toList
 
 @Service
-internal class PollingService(
+class PollingService(
     private val pollingConfig: PollingConfig,
     private val ldbService: LdbService,
     private val applicationEventPublisher: ApplicationEventPublisher,

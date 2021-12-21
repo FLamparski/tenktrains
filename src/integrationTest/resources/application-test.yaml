@@ -1,0 +1,11 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  quartz:
+    auto-startup: false
+
+polling.stations:
+  - crs: LOL
+
+logging.level.com.filipwieland.tenktrains.repo: TRACE
+logging.level.org.elasticsearch.client: TRACE
