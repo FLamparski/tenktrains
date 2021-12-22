@@ -16,6 +16,8 @@ modules will talk to each other using the application event bus like it's kafka.
 4. Update your LDB API token in `application-local.yaml`
 5. Make sure you run the app locally with the Spring profile set to `local`
 
+[cxf]: http://cxf.apache.org/download.html
+
 ## Local run
 
 This project contains a `Boot Run` configuration for IntelliJ Community Edition
@@ -29,4 +31,19 @@ $env:SPRING_PROFILES_ACTIVE="local"; .\gradlew.bat :bootRun
 SPRING_PROFILES_ACTIVE=local ./gradlew :bootRun
 ```
 
-[cxf]: http://cxf.apache.org/download.html
+## Integration tests
+
+Integration tests are placed in a separate source set - `test` is for purely in-memory unit tests,
+`integrationTest` is for anything that needs to spin up a spring context and/or containers.
+
+Speaking of - integration tests use [Testcontainers][testcontainers]. These assume a local Docker,
+which should Just Work in Linux, and also Just Work on MacOS if you have Docker for Mac.
+
+On Windows, there are some steps that assume Docker for Windows outlined in the docs:
+https://www.testcontainers.org/supported_docker_environment/windows/. For Podman/WSL2, watch
+this space.
+
+Running the integration tests requires no other special tools and can be done through Gradle using
+your IDE or on the command line. IntelliJ works absolutely fine here.
+
+[testcontainers]: https://www.testcontainers.org/
