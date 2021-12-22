@@ -19,7 +19,7 @@ class ElasticsearchDepartureSnapshotRepo(
     override fun save(snapshot: DepartureSnapshot) {
         logger().debug("Saving document {}", snapshot.id)
         val result = elasticsearchApi.index<DepartureSnapshot> {
-            it.index(INDEX_NAME)
+            it.index(Indices.DEPARTURE_SNAPSHOTS_INDEX)
             it.id(snapshot.id)
             it.document(snapshot)
             it.timeout {
@@ -33,7 +33,7 @@ class ElasticsearchDepartureSnapshotRepo(
         it.query(Query.of {
             it.matchAll { it }
         })
-        it.index(INDEX_NAME)
+        it.index(Indices.DEPARTURE_SNAPSHOTS_INDEX)
         it.size(100)
     }.hits().hits().mapNotNull { it.source() }
 
@@ -54,12 +54,8 @@ class ElasticsearchDepartureSnapshotRepo(
                 }
             }
         }
-        it.index(INDEX_NAME)
+        it.index(Indices.DEPARTURE_SNAPSHOTS_INDEX)
         it.size(1)
         it.timeout("1s")
     }.hits().hits().mapNotNull { it.source() }.firstOrNull().let { Optional.ofNullable(it) }
-
-    companion object {
-        const val INDEX_NAME = "departure-snapshots"
-    }
 }
