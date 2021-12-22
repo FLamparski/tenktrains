@@ -1,8 +1,6 @@
 package com.filipwieland.tenktrains.service
 
 import com.filipwieland.tenktrains.BaseIntegrationTest
-import com.filipwieland.tenktrains.extensions.Slf4j
-import com.filipwieland.tenktrains.extensions.logger
 import com.filipwieland.tenktrains.repo.ElasticsearchDepartureSnapshotRepo
 import com.filipwieland.tenktrains.service.polling.PollingService
 import io.kotest.matchers.shouldBe
@@ -17,7 +15,7 @@ import xjc.nationalrail.ldb.ArrayOfServiceItems4
 import xjc.nationalrail.ldb.StationBoard4
 import java.time.Duration
 
-class PipelineTest : BaseIntegrationTest(), Slf4j {
+class PipelineTest : BaseIntegrationTest() {
     @Autowired
     private lateinit var pollingService: PollingService
 

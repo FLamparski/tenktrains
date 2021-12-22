@@ -21,7 +21,7 @@ import java.util.*
 
 @Primary
 @Repository
-internal class ElasticsearchTimelineRepo(
+class ElasticsearchTimelineRepo(
     private val elasticsearchApi: ElasticsearchClient,
 ) : Slf4j, TimelineRepo {
     override fun getTimeline(metricInfo: DepartureSnapshotMetricInfo, options: DepartureSnapshotSearch): List<TimelineDataPoint> {
@@ -52,6 +52,7 @@ internal class ElasticsearchTimelineRepo(
                     }
                 }
             }
+            it.index(Indices.DEPARTURE_SNAPSHOTS_INDEX)
         }
 
         return extractResults(result)
